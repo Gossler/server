@@ -160,7 +160,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->assertEquals('bar', $this->getTextValueByIntegerField(1));
 	}
 
-	
+
 	public function testSetValuesOverWritePreconditionFailed() {
 		$this->expectException(\OCP\PreConditionNotMetException::class);
 
@@ -358,7 +358,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->assertEquals(0, $result);
 	}
 
-	
+
 	public function testUniqueConstraintViolating() {
 		$this->expectException(\Doctrine\DBAL\Exception\UniqueConstraintViolationException::class);
 

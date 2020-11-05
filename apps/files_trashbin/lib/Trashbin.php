@@ -131,6 +131,7 @@ class Trashbin {
 		$query = \OC_DB::prepare('SELECT `id`, `timestamp`, `location`'
 			. ' FROM `*PREFIX*files_trash` WHERE `user`=?');
 		$result = $query->execute([$user]);
+
 		$array = [];
 		while ($row = $result->fetchRow()) {
 			if (isset($array[$row['id']])) {
@@ -139,6 +140,7 @@ class Trashbin {
 				$array[$row['id']] = [$row['timestamp'] => $row['location']];
 			}
 		}
+		$result->closeCursor();
 		return $array;
 	}
 
@@ -153,7 +155,11 @@ class Trashbin {
 	public static function getLocation($user, $filename, $timestamp) {
 		$query = \OC_DB::prepare('SELECT `location` FROM `*PREFIX*files_trash`'
 			. ' WHERE `user`=? AND `id`=? AND `timestamp`=?');
-		$result = $query->execute([$user, $filename, $timestamp])->fetchAll();
+
+		$qResult = $query->execute([$user, $filename, $timestamp]);
+		$result = $qResult->fetchAll();
+		$qResult->closeCursor();
+
 		if (isset($result[0]['location'])) {
 			return $result[0]['location'];
 		} else {
@@ -967,10 +973,14 @@ class Trashbin {
 			->andWhere($query->expr()->eq('parent', $query->createNamedParameter($parentId)))
 			->andWhere($query->expr()->iLike('name', $query->createNamedParameter($pattern)));
 
+		$result = $query->execute();
+		$entries = $result->fetchAll();
+		$result->closeCursor();
+
 		/** @var CacheEntry[] $matches */
 		$matches = array_map(function (array $data) {
 			return Cache::cacheEntryFromData($data, \OC::$server->getMimeTypeLoader());
-		}, $query->execute()->fetchAll());
+		}, $entries);
 
 		foreach ($matches as $ma) {
 			if ($timestamp) {

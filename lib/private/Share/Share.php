@@ -194,6 +194,7 @@ class Share extends Constants {
 			}
 			$shares[] = $row;
 		}
+		$result->closeCursor();
 
 		//if didn't found a result than let's look for a group share.
 		if (empty($shares) && $user !== null) {
@@ -695,6 +696,7 @@ class Share extends Constants {
 							ILogger::ERROR);
 					} else {
 						$parentRow = $parentResult->fetchRow();
+						$parentResult->closeCursor();
 						$tmpPath = $parentRow['file_target'];
 						// find the right position where the row path continues from the target path
 						$pos = strrpos($row['path'], $parentRow['file_target']);
@@ -755,6 +757,7 @@ class Share extends Constants {
 				$items[$row['id']] = $row;
 			}
 		}
+		$result->closeCursor();
 
 		// group items if we are looking for items shared with the current user
 		if (isset($shareWith) && $shareWith === \OCP\User::getUser()) {

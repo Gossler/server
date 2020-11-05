@@ -93,12 +93,14 @@ class RepairMimeTypes implements IRepairStep {
 		if (empty($this->folderMimeTypeId)) {
 			$result = \OC_DB::executeAudited(self::getIdStmt(), ['httpd/unix-directory']);
 			$this->folderMimeTypeId = (int)$result->fetchOne();
+			$result->closeCursor();
 		}
 
 		$count = 0;
 		foreach ($updatedMimetypes as $extension => $mimetype) {
 			$result = \OC_DB::executeAudited(self::existsStmt(), [$mimetype]);
 			$exists = $result->fetchOne();
+			$result->closeCursor();
 
 			if (!$exists) {
 				// insert mimetype
@@ -108,6 +110,7 @@ class RepairMimeTypes implements IRepairStep {
 			// get target mimetype id
 			$result = \OC_DB::executeAudited(self::getIdStmt(), [$mimetype]);
 			$mimetypeId = $result->fetchOne();
+			$result->closeCursor();
 
 			// change mimetype for files with x extension
 			$count += \OC_DB::executeAudited(self::updateByNameStmt(), [$mimetypeId, $this->folderMimeTypeId, $mimetypeId, '%.' . $extension]);

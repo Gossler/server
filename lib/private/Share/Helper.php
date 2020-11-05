@@ -135,6 +135,7 @@ class Helper extends \OC\Share\Constants {
 					$parents[] = $item['id'];
 				}
 			}
+			$result->closeCursor();
 		}
 		if ($excludeParent) {
 			unset($ids[0]);

@@ -128,7 +128,9 @@ class Storage {
 	public static function getStorageId($numericId) {
 		$sql = 'SELECT `id` FROM `*PREFIX*storages` WHERE `numeric_id` = ?';
 		$result = \OC_DB::executeAudited($sql, [$numericId]);
-		if ($row = $result->fetchRow()) {
+		$row = $result->fetchRow();
+		$result->closeCursor();
+		if ($row) {
 			return $row['id'];
 		} else {
 			return null;
