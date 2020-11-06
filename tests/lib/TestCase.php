@@ -158,12 +158,18 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	}
 
 	protected function tearDown(): void {
+		$this->restoreAllServices();
+
+		$instanceId = \OC::$server->getSystemConfig()->getValue('instanceid');
+		if ($instanceId) {
+			$this->assertStringStartsWith('oc', $instanceId);
+		} else {
+			$this->fail('Instance id if empty?' . print_r($instanceId));
+		}
+		var_dump(\OC::$server->getSystemConfig()->getValue('instanceid'));
 		if (get_class($this) === 'Test\AppTest') {
-			var_dump(\OC::$server->getSystemConfig());
-			var_dump(\OC::$server->get(SystemConfig::class));
 			var_dump(file_get_contents('/home/runner/work/server/server/config/config.php'));
 		}
-		$this->restoreAllServices();
 
 		// restore database connection
 		if (!$this->IsDatabaseAccessAllowed()) {
