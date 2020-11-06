@@ -112,7 +112,7 @@ class CustomPropertiesBackendTest extends TestCase {
 
 
 		$result = $query->execute();
-		$data = $result->fetchAll(\PDO::FETCH_KEY_PAIR);
+		$data = $result->fetchAll();
 		$result->closeCursor();
 		return $data;
 	}
