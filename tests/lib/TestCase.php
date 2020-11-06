@@ -118,6 +118,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	}
 
 	protected function setUp(): void {
+		$instanceId = \OC::$server->getSystemConfig()->getValue('instanceid');
+		if (!$instanceId) {
+			var_dump('^Instance id if empty?' . json_encode($instanceId) . get_class($this));
+		}
+
 		// overwrite the command bus with one we can run ourselves
 		$this->commandBus = new QueueBus();
 		$this->overwriteService('AsyncCommandBus', $this->commandBus);
@@ -162,7 +167,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 		$instanceId = \OC::$server->getSystemConfig()->getValue('instanceid');
 		if (!$instanceId) {
-			var_dump('Instance id if empty?' . print_r($instanceId) . get_class($this));
+			var_dump('vInstance id if empty?' . json_encode($instanceId) . get_class($this));
 		}
 
 		// restore database connection
