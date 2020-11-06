@@ -162,11 +162,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 		$instanceId = \OC::$server->getSystemConfig()->getValue('instanceid');
 		if (!$instanceId) {
-			$this->fail('Instance id if empty?' . print_r($instanceId));
-		}
-		var_dump(\OC::$server->getSystemConfig()->getValue('instanceid'));
-		if (get_class($this) === 'Test\AppTest') {
-			var_dump(file_get_contents('/home/runner/work/server/server/config/config.php'));
+			var_dump('Instance id if empty?' . print_r($instanceId) . get_class($this));
 		}
 
 		// restore database connection
