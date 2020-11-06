@@ -46,4 +46,4 @@ jobs:
 
       - name: Run phpunit
         run: |
-          cd tests && phpunit --configuration phpunit-autotest.xml --group DB,SLOWDB
+          cd tests && phpunit --configuration phpunit-autotest.xml --group DB,SLOWDB --stop-on-failure --stop-on-error --debug
