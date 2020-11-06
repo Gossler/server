@@ -26,6 +26,7 @@ use DOMDocument;
 use DOMNode;
 use OC\Command\QueueBus;
 use OC\Files\Filesystem;
+use OC\SystemConfig;
 use OC\Template\Base;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -157,6 +158,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	}
 
 	protected function tearDown(): void {
+		if (get_class($this) === 'Test\AppTest') {
+			var_dump(\OC::$server->getSystemConfig());
+			var_dump(\OC::$server->get(SystemConfig::class));
+			var_dump(file_get_contents('../../config/config.php'));
+		}
 		$this->restoreAllServices();
 
 		// restore database connection
