@@ -431,6 +431,7 @@ class OC_Util {
 		$instanceId = \OC::$server->getConfig()->getSystemValue('instanceid', '');
 
 		if ($instanceId === null) {
+			var_dump(\OC::$server->getSystemConfig()->getKeys());
 			throw new \RuntimeException('no instance id!');
 		}
 		$appdata = 'appdata_' . $instanceId;

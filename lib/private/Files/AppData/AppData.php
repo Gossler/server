@@ -74,6 +74,7 @@ class AppData implements IAppData {
 	private function getAppDataFolderName() {
 		$instanceId = $this->config->getValue('instanceid', null);
 		if ($instanceId === null) {
+			var_dump($this->config->getKeys());
 			throw new \RuntimeException('no instance id!');
 		}
 
