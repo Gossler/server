@@ -161,7 +161,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		if (get_class($this) === 'Test\AppTest') {
 			var_dump(\OC::$server->getSystemConfig());
 			var_dump(\OC::$server->get(SystemConfig::class));
-			var_dump(file_get_contents('../../config/config.php'));
+			var_dump(file_get_contents('/home/runner/work/server/server/config/config.php'));
 		}
 		$this->restoreAllServices();
 
