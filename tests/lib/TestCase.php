@@ -161,9 +161,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$this->restoreAllServices();
 
 		$instanceId = \OC::$server->getSystemConfig()->getValue('instanceid');
-		if ($instanceId) {
-			$this->assertStringStartsWith('oc', $instanceId);
-		} else {
+		if (!$instanceId) {
 			$this->fail('Instance id if empty?' . print_r($instanceId));
 		}
 		var_dump(\OC::$server->getSystemConfig()->getValue('instanceid'));
