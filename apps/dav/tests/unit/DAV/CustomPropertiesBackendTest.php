@@ -112,8 +112,12 @@ class CustomPropertiesBackendTest extends TestCase {
 
 
 		$result = $query->execute();
-		$data = $result->fetchAll();
+		$data = [];
+		while ($row = $result->fetch()) {
+			$data[$row['propertyname']] = $row['propertyvalue'];
+		}
 		$result->closeCursor();
+
 		return $data;
 	}
 
